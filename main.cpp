@@ -19,10 +19,17 @@ int main ( int argc, char** argv ) {
         return 1;
     }
 
-    d.addVisualObject( 10, 10, new CVisualImage( "C:/Windows/Coffee Bean.bmp" ) );
-    d.addVisualObject( 50, 50, new CVisualImage( "C:/Windows/Greenstone.bmp" ) );
+    CVisualObject *beans = new CVisualImage( "C:/Windows/Coffee Bean.bmp" );
+    CVisualImage stones( "C:/Windows/Greenstone.bmp" );
+
+    d.addVisualObject( 10, 10, beans );
+    d.addVisualObject( 50, 50, &stones );
+    d.addVisualObject( 100, 100, beans );
 
     d.gameloop();
+
+    delete beans;
+
 
     return 0;
 }
