@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "..\include\map.h"
+#include "map.h"
 
 Map::Map() : CFreeable::CFreeable() {
     map_width = 0;

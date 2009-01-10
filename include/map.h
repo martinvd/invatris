@@ -3,7 +3,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "Freeable.h"
+#include "freeable.h"
 
 class Map: public CFreeable {
 
