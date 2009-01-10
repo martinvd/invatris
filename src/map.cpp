@@ -5,7 +5,7 @@
 #include <string>
 #include "..\include\map.h"
 
-Map::Map() {
+Map::Map() : CFreeable::CFreeable() {
     map_width = 0;
     map_height = 0;
 }

@@ -3,9 +3,11 @@
 #ifndef MAP_H
 #define MAP_H
 
-class Map {
+#include "Freeable.h"
 
-    private:
+class Map: public CFreeable {
+
+    protected:
         int map_width;       // map width in blocks
         int map_height;      // map height in blocks
 
