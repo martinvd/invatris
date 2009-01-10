@@ -1,0 +1,36 @@
+# Makefile for old Linux versions where you can't install Code::Blocks because of dependencies
+
+CPP = g++
+BIN = FreeMan
+OBJ = main.o freeable.o visualobject.o display.o map.o
+LINKOBJ = $(OBJ)
+LIBS = `pkg-config --libs sdl` -lpthread -lrt
+CXXINCS = -I"include" `pkg-config --cflags-only-I sdl`
+CXXFLAGS = $(CXXINCS) -ansi -fexceptions
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "$(BIN)" $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+freeable.o: src/freeable.cpp
+	$(CPP) -c src/freeable.cpp -o freeable.o $(CXXFLAGS)
+
+visualobject.o: src/visualobject.cpp
+	$(CPP) -c src/visualobject.cpp -o visualobject.o $(CXXFLAGS)
+
+map.o: src/map.cpp
+	$(CPP) -c src/map.cpp -o map.o $(CXXFLAGS)
+
+display.o: src/display.cpp
+	$(CPP) -c src/display.cpp -o display.o $(CXXFLAGS)
+
