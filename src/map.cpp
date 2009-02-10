@@ -1,38 +1,35 @@
 // Game map class
 
-#include <iostream>
-#include <fstream>
-#include <string>
+#include "const.h"
 #include "map.h"
 
 Map::Map() : CFreeable::CFreeable() {
-    map_width = 0;
-    map_height = 0;
+    clearMap();
 }
 
 Map::~Map() {
 }
 
-/// map laden vanuit bestand
-bool Map::load(const char *filename) {
+void Map::clearMap() {
+    for(unsigned int i = 0; i <= MAP_HEIGHT; i++) {
+        for(unsigned int j = 0; j <= MAP_WIDTH; j++) {
+            gameMap[i][j] = TILE_EMPTY;
+        }
+    }
+}
 
-    char c;
+void Map::removeRow(unsigned int y) {
+    for(unsigned int i = 0; i <= y; i++) {
+        for(unsigned int j = 0; j <= MAP_WIDTH; j++) {
 
-    int height_x = 0;
-    int height_y = 0;
-
-    std::ifstream mapfile (filename, std::ios::in);
-
-    if (mapfile.is_open()) {
-
-        int line_nr = 0;
-        while (mapfile.get(c)) {
-
+            if (gameMap[i][j] != TILE_MOVABLE) {
+                gameMap[i][j] = i > 0 ? gameMap[i - 1][j] : 0;
+            }
 
         }
-
-        mapfile.close();
     }
+}
 
-    return 0;
+unsigned int Map::getTile(unsigned int x, unsigned int y) {
+    return gameMap[y][x];
 }

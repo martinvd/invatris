@@ -44,7 +44,6 @@ class CVisualContainer: public CVisualObject {
 
 };
 
-
 class CVisualImage: public CVisualObject {
     protected:
         std::string sFilenameUsed;

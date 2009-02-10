@@ -6,6 +6,8 @@
     #include <SDL.h>
 #endif
 
+#include "const.h"
+
 CDisplay::CDisplay() : CVisualContainer::CVisualContainer()
 {
     bHasError = false;
@@ -67,7 +69,7 @@ void CDisplay::init() {
     atexit(SDL_Quit);
 
     // create a new window
-    surface = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
+    surface = SDL_SetVideoMode(MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
     if ( !surface ) {
         printf("Unable to set video resolution: %s\n", SDL_GetError());
         bHasError = true;
