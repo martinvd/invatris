@@ -6,10 +6,17 @@
 #include "const.h"
 #include "freeable.h"
 
-class Map: public CFreeable {
+#include "visualobject.h"
 
-    private:
-        unsigned int gameMap[MAP_HEIGHT][MAP_WIDTH];
+class CBlokje: public CFreeable {
+    public:
+        unsigned int iType;
+        CPositionedObject *ptrObject;
+};
+
+class Map: public CFreeable {
+    protected:
+        CBlokje *gameMap[MAP_HEIGHT][MAP_WIDTH];
 
     public:
         Map();
@@ -17,7 +24,7 @@ class Map: public CFreeable {
 
         void clearMap();
         void removeRow(unsigned int y);
-        unsigned int getTile(unsigned int x, unsigned int y);
+        CBlokje *getTile(unsigned int x, unsigned int y);
 };
 
 #endif

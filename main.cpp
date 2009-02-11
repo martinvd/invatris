@@ -8,16 +8,19 @@
 #include "include/display.h"
 #include "include/map.h"
 
+#include "include/visualobject.h"
+
 /// main loop
 int main ( int argc, char** argv ) {
 
     CDisplay d;
 
     if ( !d.hasErrors() ) {
-        Map gamemap();
     } else {
         return 1;
     }
+
+    Map *myMap = new Map();
 
     // 16x16 images:
     CVisualObject *red = new CVisualImage( "red.bmp" );
@@ -33,7 +36,8 @@ int main ( int argc, char** argv ) {
     int yPos = 0;
     for(int i = 0; i <= MAP_HEIGHT; i++) {
         for(int j = 0; j <= MAP_WIDTH; j++) {
-            d.addVisualObject(xPos, yPos, green );
+            CBlokje *pBlokje = myMap->getTile( j, i );
+            pBlokje->ptrObject = d.addVisualObject(xPos, yPos, green );
             xPos += TILE_SIZE;
         }
         xPos = 0;
@@ -45,6 +49,8 @@ int main ( int argc, char** argv ) {
     delete red;
     delete green;
     delete blue;
+
+    delete myMap;
 
     return 0;
 }
