@@ -62,21 +62,27 @@ void Map::removeRow(unsigned int iRow) {
 }
 
 CBlokje *Map::getTile(unsigned int x, unsigned int y) {
-    return gameMap[y][x];
+    if ( (x >= 0) && (x < MAP_WIDTH) && (y >= 0) && (y < MAP_HEIGHT) ) {
+        return gameMap[y][x];
+    }
+
+    return NULL;
 }
 
 CBlokje *Map::changeTileType( unsigned int x, unsigned int y, unsigned int iNewType ) {
-    CBlokje *pBlokje = gameMap[y][x];
+    CBlokje *pBlokje = getTile( x, y );
 
-    if ( pBlokje->iType != iNewType ) {
-        if ( iNewType == TILE_EMPTY ) {
-            pBlokje->ptrObject->object = this->pVisObjGreen;
-        } else if ( iNewType == TILE_MOVABLE ) {
-            pBlokje->ptrObject->object = this->pVisObjRed;
-        } else if ( iNewType == TILE_FILLED ) {
-            pBlokje->ptrObject->object = this->pVisObjBlue;
+    if ( pBlokje != NULL ) {
+        if ( pBlokje->iType != iNewType ) {
+            if ( iNewType == TILE_EMPTY ) {
+                pBlokje->ptrObject->object = this->pVisObjGreen;
+            } else if ( iNewType == TILE_MOVABLE ) {
+                pBlokje->ptrObject->object = this->pVisObjRed;
+            } else if ( iNewType == TILE_FILLED ) {
+                pBlokje->ptrObject->object = this->pVisObjBlue;
+            }
+            pBlokje->iType = iNewType;
         }
-        pBlokje->iType = iNewType;
     }
 
     return pBlokje;
