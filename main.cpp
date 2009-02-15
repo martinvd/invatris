@@ -10,47 +10,72 @@
 
 #include "include/visualobject.h"
 
+#include <math.h>
+
+CDisplay *d;
+Map *myMap;
+
+#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
+#define MAX(a, b)  (((a) > (b)) ? (a) : (b))
+
+
+class CMovingTile: public CFreeable {
+    public:
+        long x;
+        long y;
+};
+
+CMovingTile *pMovingTile;
+
+double iTime = 0;
+
+void gameiter( double dDelta ) {
+    iTime += dDelta;
+    if ( int(iTime) >= 1 ) {
+        iTime = 0;
+        myMap->changeTileType( pMovingTile->x, pMovingTile->y, TILE_EMPTY );
+
+        pMovingTile->y = MIN( MAP_HEIGHT - 1, pMovingTile->y + 1 );
+        myMap->changeTileType( pMovingTile->x, pMovingTile->y, TILE_MOVABLE );
+    }
+}
+
+
 /// main loop
 int main ( int argc, char** argv ) {
+    d = new CDisplay( "FreeManTetris", MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE );
 
-    CDisplay d;
-
-    if ( !d.hasErrors() ) {
+    if ( !d->hasErrors() ) {
     } else {
         return 1;
     }
-
-    Map *myMap = new Map();
 
     // 16x16 images:
     CVisualObject *red = new CVisualImage( "red.bmp" );
     CVisualObject *green = new CVisualImage( "green.bmp" );
     CVisualObject *blue = new CVisualImage( "blue.bmp" );
-    //CVisualImage stones( "testtile.bmp" );
 
-    //d.addVisualObject( 10, 10, beans );
-    //d.addVisualObject( 50, 50, &stones );
-    //d.addVisualObject( 100, 100, beans );
+    myMap = new Map( MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE, red, green, blue );
+    d->addVisualObject( 0, 0, myMap );
 
-    int xPos = 0;
-    int yPos = 0;
-    for(int i = 0; i <= MAP_HEIGHT; i++) {
-        for(int j = 0; j <= MAP_WIDTH; j++) {
-            CBlokje *pBlokje = myMap->getTile( j, i );
-            pBlokje->ptrObject = d.addVisualObject(xPos, yPos, green );
-            xPos += TILE_SIZE;
-        }
-        xPos = 0;
-        yPos += TILE_SIZE;
-    }
+    pMovingTile = new CMovingTile();
+    pMovingTile->x = 1;
+    pMovingTile->y = 1;
+    myMap->changeTileType( 1, 1, TILE_MOVABLE );
 
-    d.gameloop();
+    d->setIterationfunc( gameiter );
+
+    d->gameloop();
+
+    delete pMovingTile;
 
     delete red;
     delete green;
     delete blue;
 
     delete myMap;
+
+    delete d;
 
     return 0;
 }

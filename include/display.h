@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+typedef void (*gameiterationfunc)( double );
+
 class CDisplay: public CVisualContainer
 {
     protected:
@@ -16,9 +18,15 @@ class CDisplay: public CVisualContainer
 
         void checkKeys();
 
+        std::string sWindowCaption;
+
+        gameiterationfunc iterationfunc;
+
     public:
-        CDisplay();
+        CDisplay( const char *sCaption, long iWidth, long iHeight );
         ~CDisplay();
+
+        void setIterationfunc( gameiterationfunc func );
 
         void gameloop();
         void stop();

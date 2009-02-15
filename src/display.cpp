@@ -8,8 +8,11 @@
 
 #include "const.h"
 
-CDisplay::CDisplay() : CVisualContainer::CVisualContainer()
+CDisplay::CDisplay( const char *sCaption, long iWidth, long iHeight ) : CVisualContainer::CVisualContainer( iWidth, iHeight )
 {
+    this->sWindowCaption = sCaption;
+    this->iterationfunc = NULL;
+
     bHasError = false;
     bShouldBeRunning = true;
     init();
@@ -18,7 +21,6 @@ CDisplay::CDisplay() : CVisualContainer::CVisualContainer()
 CDisplay::~CDisplay()
 {
 }
-
 
 void CDisplay::checkKeys() {
     Uint8 *keystates = SDL_GetKeyState( NULL );
@@ -31,7 +33,15 @@ void CDisplay::stop() {
     bShouldBeRunning = false;
 }
 
+void CDisplay::setIterationfunc( gameiterationfunc func ) {
+    this->iterationfunc = func;
+}
+
 void CDisplay::gameloop() {
+    unsigned long iDelta = 0;
+    unsigned long iNewTime = SDL_GetTicks();
+    unsigned long iOldTime = iNewTime;
+
     SDL_Event event;
     while ( bShouldBeRunning ) {
         while( SDL_PollEvent( &event ) ) {
@@ -44,11 +54,21 @@ void CDisplay::gameloop() {
 
         displayPositionedObjects();
 
+        if ( iDelta > 0 ) {
+            if ( iterationfunc != NULL ) {
+                iterationfunc( iDelta / 1000.0 );
+            }
+        }
+
         if ( SDL_Flip( surface ) == -1 ) {
             bShouldBeRunning = false;
             bHasError = true;
             break;
         }
+
+        iNewTime = SDL_GetTicks();
+        iDelta = iNewTime - iOldTime;
+        iOldTime = iNewTime;
     }
 }
 
@@ -69,12 +89,12 @@ void CDisplay::init() {
     atexit(SDL_Quit);
 
     // create a new window
-    surface = SDL_SetVideoMode(MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
+    surface = SDL_SetVideoMode( width, height, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
     if ( !surface ) {
         printf("Unable to set video resolution: %s\n", SDL_GetError());
         bHasError = true;
         return;
     }
 
-    SDL_WM_SetCaption("FreeMan", NULL);
+    SDL_WM_SetCaption( sWindowCaption.c_str(), NULL);
 }

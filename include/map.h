@@ -10,21 +10,30 @@
 
 class CBlokje: public CFreeable {
     public:
+        CBlokje();
+        ~CBlokje();
+
         unsigned int iType;
         CPositionedObject *ptrObject;
 };
 
-class Map: public CFreeable {
+class Map: public CVisualContainer {
     protected:
         CBlokje *gameMap[MAP_HEIGHT][MAP_WIDTH];
 
+        CVisualObject *pVisObjRed;
+        CVisualObject *pVisObjGreen;
+        CVisualObject *pVisObjBlue;
+
     public:
-        Map();
+        Map( long iWidth, long iHeight, CVisualObject *pRed, CVisualObject *pGreen, CVisualObject *pBlue );
         ~Map();
 
         void clearMap();
         void removeRow(unsigned int y);
         CBlokje *getTile(unsigned int x, unsigned int y);
+
+        CBlokje *changeTileType( unsigned int x, unsigned int y, unsigned int iNewType );
 };
 
 #endif

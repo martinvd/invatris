@@ -1,7 +1,10 @@
 #include "visualobject.h"
 
-CVisualObject::CVisualObject() : CFreeable::CFreeable() {
+CVisualObject::CVisualObject( long iWidth, long iHeight ) : CFreeable::CFreeable() {
     surface = NULL;
+
+    width   = iWidth;
+    height  = iHeight;
 }
 
 CVisualObject::~CVisualObject() {
@@ -20,11 +23,14 @@ SDL_Surface *CVisualObject::getSurface() {
     return surface;
 }
 
+void CVisualObject::displayOn( SDL_Surface *pParentSurface, SDL_Rect *pCoords ) {
+    SDL_BlitSurface( this->surface, NULL, pParentSurface, pCoords );
+}
+
 
 //-----------------------------------------------------------------------------
 
-CVisualContainer::CVisualContainer() : CVisualObject::CVisualObject() {
-
+CVisualContainer::CVisualContainer( long iWidth, long iHeight ) : CVisualObject::CVisualObject( iWidth, iHeight ) {
 }
 
 CVisualContainer::~CVisualContainer() {
@@ -47,7 +53,23 @@ void CVisualContainer::displayPositionedObjects() {
     for ( unsigned int i = 0; i < c; i++ ) {
         obj = lstPositionedObjects[i];
         if ( obj != NULL ) {
-            SDL_BlitSurface( obj->object->getSurface(), NULL, surface, &obj->coords );
+            obj->object->displayOn( this->surface, &obj->coords );
+        }
+    }
+}
+
+void CVisualContainer::displayPositionedObjects( SDL_Surface *pParentSurface, SDL_Rect *pCoords ) {
+    SDL_Rect copyRect;
+    CPositionedObject *obj = NULL;
+
+    unsigned int c = lstPositionedObjects.size();
+    for ( unsigned int i = 0; i < c; i++ ) {
+        obj = lstPositionedObjects[i];
+        if ( obj != NULL ) {
+            copyRect.x = pCoords->x + obj->coords.x;
+            copyRect.y = pCoords->y + obj->coords.y;
+
+            obj->object->displayOn( pParentSurface, &copyRect );
         }
     }
 }
@@ -62,6 +84,20 @@ CPositionedObject *CVisualContainer::addVisualObject( long x, long y, CVisualObj
     lstPositionedObjects.push_back( pObj );
 
     return pObj;
+}
+
+void CVisualContainer::displayOn( SDL_Surface *pParentSurface, SDL_Rect *pCoords ) {
+    if ( this->surface != NULL ) {
+        // eerst op het eigen surface weergeven
+        this->displayPositionedObjects();
+
+        // daarna onze surface blitten naar het parent-surface
+        SDL_BlitSurface( this->surface, NULL, pParentSurface, pCoords );
+    } else {
+        // indien we zelf geen surface hebben worden de objects in deze container direct weergegeven op de meegegeven surface
+
+        this->displayPositionedObjects( pParentSurface, pCoords );
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -89,4 +125,7 @@ void CVisualImage::loadFromFile( std::string sFilename ) {
 
         SDL_FreeSurface( surfLoadedImage );
     }
+
+    height = surface->h;
+    width  = surface->w;
 }
