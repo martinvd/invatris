@@ -31,6 +31,9 @@ class Map: public CVisualContainer {
 
         void clearMap();
         void removeRow(unsigned int y);
+
+        bool checkLine( unsigned int y );
+
         CBlokje *getTile(unsigned int x, unsigned int y);
 
         CBlokje *changeTileType( unsigned int x, unsigned int y, unsigned int iNewType );

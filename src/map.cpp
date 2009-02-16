@@ -49,14 +49,27 @@ void Map::clearMap() {
     }
 }
 
-void Map::removeRow(unsigned int iRow) {
-    for(unsigned int y = 0; y < iRow; y++) {
-        for(unsigned int x = 0; x < MAP_WIDTH; x++) {
-            CBlokje *pBlokje = gameMap[y][x];
-            if (pBlokje->iType != TILE_MOVABLE) {
-                pBlokje->iType = y > 0 ? pBlokje->iType : 0;
-            }
+bool Map::checkLine( unsigned int y ) {
+    for(unsigned int x = 0; x < MAP_WIDTH; x++) {
+        CBlokje *pBlokje = gameMap[y][x];
+        if (pBlokje->iType != TILE_FILLED) {
+            return false;
+        }
+    }
 
+    return true;
+}
+
+void Map::removeRow(unsigned int iRow) {
+    for(int y = iRow; y >= 0; y--) {
+        for(unsigned int x = 0; x < MAP_WIDTH; x++) {
+            CBlokje *pBlokjeA = getTile( x, y - 1 );
+            CBlokje *pBlokjeB = getTile( x, y );
+            if ( pBlokjeA != NULL ) {
+                changeTileType( x, y, pBlokjeA->iType );
+            } else {
+                changeTileType( x, y, TILE_EMPTY );
+            }
         }
     }
 }

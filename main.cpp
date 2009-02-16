@@ -104,7 +104,7 @@ class CTetrisObject: public CFreeable {
             delete matrix;
         }
 
-        void typeChange( unsigned int iType ) {
+        virtual void typeChange( unsigned int iType ) {
             long iStartX = iCenterX - 2;
             long iStartY = iCenterY - 2;
 
@@ -117,7 +117,7 @@ class CTetrisObject: public CFreeable {
             }
         }
 
-        void moveDown() {
+        virtual void moveDown() {
             if ( bIsMoving ) {
                 typeChange( TILE_EMPTY );
 
@@ -155,7 +155,7 @@ class CTetrisObject: public CFreeable {
             }
         }
 
-        void turn() {
+        virtual void turn() {
             if ( bIsMoving ) {
                 typeChange( TILE_EMPTY );
 
@@ -191,12 +191,43 @@ class CTetrisObject_B: public CTetrisObject {
         }
 };
 
+class CTetrisObject_C: public CTetrisObject {
+    public:
+        CTetrisObject_C( long x, long y ) : CTetrisObject::CTetrisObject( x, y ) {
+            matrix->m[2][1] = new CMovingTile( x - 1, y );
+            matrix->m[2][2] = new CMovingTile( x, y );
+            matrix->m[2][3] = new CMovingTile( x + 1, y );
+            matrix->m[3][2] = new CMovingTile( x, y + 1 );
+
+            typeChange( TILE_MOVABLE );
+        }
+};
+
+class CTetrisObject_D: public CTetrisObject {
+    public:
+        CTetrisObject_D( long x, long y ) : CTetrisObject::CTetrisObject( x, y ) {
+            matrix->m[2][1] = new CMovingTile( x - 1, y );
+            matrix->m[2][2] = new CMovingTile( x, y );
+            matrix->m[3][1] = new CMovingTile( x - 1, y + 1 );
+            matrix->m[3][2] = new CMovingTile( x, y + 1 );
+
+            typeChange( TILE_MOVABLE );
+        }
+
+        void turn() {
+            // dont turn
+        }
+};
+
 std::vector<CTetrisObject *> lstMovingTetrisObjects;
 
 
 double iTime = 0;
+bool bDone1 = false;
+bool bDone2 = false;
 
 void gameiter( double dDelta ) {
+
     iTime += dDelta;
     if ( iTime >= 0.3 ) {
         iTime = 0;
@@ -204,7 +235,25 @@ void gameiter( double dDelta ) {
         for ( unsigned int i = 0; i < lstMovingTetrisObjects.size(); i++ ) {
             CTetrisObject *pObject = lstMovingTetrisObjects.at(i);
 
+            if ( (i == 1) && !bDone1 ) {
+                pObject->turn();
+                bDone1 = true;
+            } else if ( (i == 2) && !bDone2 ) {
+                //pObject->turn();
+                //pObject->turn();
+                //pObject->turn();
+                bDone2 = true;
+            } else if (i == 3) {
+                pObject->turn();
+            }
             pObject->moveDown();
+
+        }
+
+        for ( unsigned int i = 0; i < MAP_HEIGHT; i++ ) {
+            if ( myMap->checkLine( i ) ) {
+                myMap->removeRow( i );
+            }
         }
     }
 }
@@ -231,6 +280,10 @@ int main ( int argc, char** argv ) {
 
     lstMovingTetrisObjects.push_back( new CTetrisObject_A( 8, 2 ) );
     lstMovingTetrisObjects.push_back( new CTetrisObject_B( 6, 12 ) );
+    lstMovingTetrisObjects.push_back( new CTetrisObject_C( 4, 4 ) );
+    lstMovingTetrisObjects.push_back( new CTetrisObject_D( 11, 4 ) );
+    lstMovingTetrisObjects.push_back( new CTetrisObject_C( 1, 2 ) );
+    lstMovingTetrisObjects.push_back( new CTetrisObject_C( 13, 4 ) );
 
     d->gameloop();
 
