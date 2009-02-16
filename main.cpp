@@ -229,7 +229,7 @@ bool bDone2 = false;
 void gameiter( double dDelta ) {
 
     iTime += dDelta;
-    if ( iTime >= 0.3 ) {
+    if ( iTime >= 0.1 ) {
         iTime = 0;
 
         for ( unsigned int i = 0; i < lstMovingTetrisObjects.size(); i++ ) {
@@ -261,7 +261,7 @@ void gameiter( double dDelta ) {
 
 /// main loop
 int main ( int argc, char** argv ) {
-    d = new CDisplay( "FreeManTetris", MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE );
+    d = new CDisplay( "FreeManTetris", 640, 480 );
 
     if ( !d->hasErrors() ) {
     } else {
@@ -274,7 +274,7 @@ int main ( int argc, char** argv ) {
     CVisualObject *blue = new CVisualImage( "blue.bmp" );
 
     myMap = new Map( MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE, red, green, blue );
-    d->addVisualObject( 0, 0, myMap );
+    d->addVisualObject( 100, 20, myMap );
 
     d->setIterationfunc( gameiter );
 
