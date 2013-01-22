@@ -122,10 +122,8 @@ void CVisualImage::loadFromFile( std::string sFilename ) {
     surfLoadedImage = SDL_LoadBMP( sFilename.c_str() );
     if ( surfLoadedImage != NULL ) {
         surface = SDL_DisplayFormat( surfLoadedImage );
-
+        height = surface->h;
+        width  = surface->w;
         SDL_FreeSurface( surfLoadedImage );
     }
-
-    height = surface->h;
-    width  = surface->w;
 }
