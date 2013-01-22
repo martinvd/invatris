@@ -258,7 +258,6 @@ void gameiter( double dDelta ) {
     }
 }
 
-
 /// main loop
 int main ( int argc, char** argv ) {
     d = new CDisplay( "FreeManTetris", 640, 480 );

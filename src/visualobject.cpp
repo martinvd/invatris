@@ -126,6 +126,6 @@ void CVisualImage::loadFromFile( std::string sFilename ) {
         width  = surface->w;
         SDL_FreeSurface( surfLoadedImage );
     } else {
-        printf("Error loading resource: %s\n", sFilenameUsed.c_str());
+        printf("Error loading resource: %s\n", SDL_GetError());
     }
 }
