@@ -8,8 +8,7 @@
 
 #include "const.h"
 
-CDisplay::CDisplay( const char *sCaption, long iWidth, long iHeight ) : CVisualContainer::CVisualContainer( iWidth, iHeight )
-{
+CDisplay::CDisplay( const char *sCaption, long iWidth, long iHeight ) : CVisualContainer::CVisualContainer( iWidth, iHeight ) {
     this->sWindowCaption = sCaption;
     this->iterationfunc = NULL;
 
@@ -18,8 +17,7 @@ CDisplay::CDisplay( const char *sCaption, long iWidth, long iHeight ) : CVisualC
     init();
 }
 
-CDisplay::~CDisplay()
-{
+CDisplay::~CDisplay() {
 }
 
 void CDisplay::checkKeys() {

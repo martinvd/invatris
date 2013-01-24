@@ -11,8 +11,7 @@
     #include <SDL.h>
 #endif
 
-class CVisualObject : public CFreeable
-{
+class CVisualObject : public CFreeable {
     protected:
         long width;
         long height;

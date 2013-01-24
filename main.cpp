@@ -18,7 +18,6 @@ Map *myMap;
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 
-
 class CMovingTile: public CFreeable {
     public:
         long x;
@@ -221,7 +220,6 @@ class CTetrisObject_D: public CTetrisObject {
 
 std::vector<CTetrisObject *> lstMovingTetrisObjects;
 
-
 double iTime = 0;
 bool bDone1 = false;
 bool bDone2 = false;
@@ -239,9 +237,9 @@ void gameiter( double dDelta ) {
                 pObject->turn();
                 bDone1 = true;
             } else if ( (i == 2) && !bDone2 ) {
-                //pObject->turn();
-                //pObject->turn();
-                //pObject->turn();
+                pObject->turn();
+                pObject->turn();
+                pObject->turn();
                 bDone2 = true;
             } else if (i == 3) {
                 pObject->turn();
@@ -262,15 +260,14 @@ void gameiter( double dDelta ) {
 int main ( int argc, char** argv ) {
     d = new CDisplay( "FreeManTetris", 640, 480 );
 
-    if ( !d->hasErrors() ) {
-    } else {
+    if ( d->hasErrors() ) {
         return 1;
     }
 
     // 16x16 images:
-    CVisualObject *red = new CVisualImage( "red.bmp" );
-    CVisualObject *green = new CVisualImage( "green.bmp" );
-    CVisualObject *blue = new CVisualImage( "blue.bmp" );
+    CVisualObject *red = new CVisualImage( "res/red.bmp" );
+    CVisualObject *green = new CVisualImage( "res/green.bmp" );
+    CVisualObject *blue = new CVisualImage( "res/blue.bmp" );
 
     myMap = new Map( MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE, red, green, blue );
     d->addVisualObject( 100, 20, myMap );

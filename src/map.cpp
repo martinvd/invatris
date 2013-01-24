@@ -64,7 +64,7 @@ void Map::removeRow(unsigned int iRow) {
     for(int y = iRow; y >= 0; y--) {
         for(unsigned int x = 0; x < MAP_WIDTH; x++) {
             CBlokje *pBlokjeA = getTile( x, y - 1 );
-            CBlokje *pBlokjeB = getTile( x, y );
+            //CBlokje *pBlokjeB = getTile( x, y );
             if ( pBlokjeA != NULL ) {
                 changeTileType( x, y, pBlokjeA->iType );
             } else {
@@ -100,4 +100,3 @@ CBlokje *Map::changeTileType( unsigned int x, unsigned int y, unsigned int iNewT
 
     return pBlokje;
 }
-

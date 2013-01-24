@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\FreeMan" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option output="bin/Debug/FreeMan" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -16,8 +16,8 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\FreeMan" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option output="bin/Release/FreeMan" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -28,14 +28,14 @@
 				</Linker>
 			</Target>
 			<Target title="Win32Debug_Martin">
-				<Option output="bin\Debug\FreeMan" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option output="bin/Debug/FreeMan" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="C:\Documents and Settings\Martin\My Documents\CppProjects\FreeMan\include" />
-					<Add directory="C:\Libs\SDL\include" />
+					<Add directory="C:/Documents and Settings/Martin/My Documents/CppProjects/FreeMan/include" />
+					<Add directory="C:/Libs/SDL/include" />
 				</Compiler>
 				<Linker>
 					<Add library="mingw32" />
@@ -45,18 +45,18 @@
 					<Add library="gdi32" />
 					<Add library="winmm" />
 					<Add library="dxguid" />
-					<Add directory="C:\Libs\SDL\lib" />
+					<Add directory="C:/Libs/SDL/lib" />
 				</Linker>
 			</Target>
 			<Target title="Win32Debug_Patrick">
-				<Option output="bin\Debug\FreeMan" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option output="bin/Debug/FreeMan" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
-					<Add directory="D:\SDL-1.2.13\include" />
+					<Add directory="D:/SDL-1.2.13/include" />
 				</Compiler>
 				<Linker>
 					<Add library="mingw32" />
@@ -66,18 +66,18 @@
 					<Add library="gdi32" />
 					<Add library="winmm" />
 					<Add library="dxguid" />
-					<Add directory="D:\SDL-1.2.13\lib" />
+					<Add directory="D:/SDL-1.2.13/lib" />
 				</Linker>
 			</Target>
 			<Target title="LinuxDebug_Martin">
-				<Option output="bin\Debug\FreeMan" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option output="bin/Debug/FreeMan" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
-					<Add directory="\usr\include\SDL" />
+					<Add directory="/usr/include/SDL" />
 				</Compiler>
 				<Linker>
 					<Add library="SDL" />
@@ -87,16 +87,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="include\const.h" />
-		<Unit filename="include\display.h" />
-		<Unit filename="include\freeable.h" />
-		<Unit filename="include\map.h" />
-		<Unit filename="include\visualobject.h" />
+		<Unit filename="include/const.h" />
+		<Unit filename="include/display.h" />
+		<Unit filename="include/freeable.h" />
+		<Unit filename="include/map.h" />
+		<Unit filename="include/visualobject.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src\display.cpp" />
-		<Unit filename="src\freeable.cpp" />
-		<Unit filename="src\map.cpp" />
-		<Unit filename="src\visualobject.cpp" />
+		<Unit filename="res/blue.bmp" />
+		<Unit filename="res/green.bmp" />
+		<Unit filename="res/red.bmp" />
+		<Unit filename="src/display.cpp" />
+		<Unit filename="src/freeable.cpp" />
+		<Unit filename="src/map.cpp" />
+		<Unit filename="src/visualobject.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
