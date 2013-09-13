@@ -3,7 +3,6 @@
 #include "const.h"
 #include "map.h"
 
-
 //----------------------------------------------------------------------------
 
 CBlokje::CBlokje() : CFreeable::CFreeable() {

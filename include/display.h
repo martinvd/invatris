@@ -2,7 +2,7 @@
 #define __DISPLAY_H
 
 #include "freeable.h"
-#include "visualobject.h"
+#include "visualcontainer.h"
 #include <string>
 #include <vector>
 

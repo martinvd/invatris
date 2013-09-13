@@ -8,7 +8,9 @@
 #include "include/display.h"
 #include "include/map.h"
 
-#include "include/visualobject.h"
+#include "include/visualimage.h"
+#include "visualobject.h"
+#include "visualcontainer.h"
 
 #include <math.h>
 
@@ -17,17 +19,6 @@ Map *myMap;
 
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
-
-class CMovingTile: public CFreeable {
-    public:
-        long x;
-        long y;
-
-        CMovingTile( long x, long y ) : CFreeable::CFreeable() {
-            this->x = x;
-            this->y = y;
-        }
-};
 
 class CMovingTileMatrix: public CFreeable {
     protected:
@@ -258,6 +249,7 @@ void gameiter( double dDelta ) {
 
 /// main loop
 int main ( int argc, char** argv ) {
+    // init display
     d = new CDisplay( "FreeManTetris", 640, 480 );
 
     if ( d->hasErrors() ) {
@@ -269,6 +261,7 @@ int main ( int argc, char** argv ) {
     CVisualObject *green = new CVisualImage( "res/green.bmp" );
     CVisualObject *blue = new CVisualImage( "res/blue.bmp" );
 
+    // init game map
     myMap = new Map( MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE, red, green, blue );
     d->addVisualObject( 100, 20, myMap );
 
@@ -281,8 +274,10 @@ int main ( int argc, char** argv ) {
     lstMovingTetrisObjects.push_back( new CTetrisObject_C( 1, 2 ) );
     lstMovingTetrisObjects.push_back( new CTetrisObject_C( 13, 4 ) );
 
+    // init game loop
     d->gameloop();
 
+    // init freedom
     delete red;
     delete green;
     delete blue;

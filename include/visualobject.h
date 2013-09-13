@@ -28,37 +28,4 @@ class CVisualObject : public CFreeable {
         virtual void displayOn( SDL_Surface *pParentSurface, SDL_Rect *pCoords );
 };
 
-class CPositionedObject: public CFreeable {
-    public:
-        SDL_Rect coords;
-        CVisualObject *object;
-};
-
-class CVisualContainer: public CVisualObject {
-    protected:
-        std::vector<CPositionedObject *> lstPositionedObjects;
-        void displayPositionedObjects();
-        void displayPositionedObjects( SDL_Surface *pParentSurface, SDL_Rect *pCoords );
-        void clearVector();
-
-    public:
-        CVisualContainer( long iWidth, long iHeight );
-        ~CVisualContainer();
-
-        CPositionedObject *addVisualObject( long x, long y, CVisualObject *object );
-
-        void displayOn( SDL_Surface *pParentSurface, SDL_Rect *pCoords );
-};
-
-class CVisualImage: public CVisualObject {
-    protected:
-        std::string sFilenameUsed;
-    public:
-        CVisualImage();
-        CVisualImage( std::string sFilename );
-        ~CVisualImage();
-
-        void loadFromFile( std::string sFilename );
-};
-
 #endif // VISUALOBJECT_H

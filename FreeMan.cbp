@@ -91,6 +91,10 @@
 		<Unit filename="include/display.h" />
 		<Unit filename="include/freeable.h" />
 		<Unit filename="include/map.h" />
+		<Unit filename="include/movingtile.h" />
+		<Unit filename="include/positionedobject.h" />
+		<Unit filename="include/visualcontainer.h" />
+		<Unit filename="include/visualimage.h" />
 		<Unit filename="include/visualobject.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="res/blue.bmp" />
@@ -99,6 +103,10 @@
 		<Unit filename="src/display.cpp" />
 		<Unit filename="src/freeable.cpp" />
 		<Unit filename="src/map.cpp" />
+		<Unit filename="src/movingtile.cpp" />
+		<Unit filename="src/positionedobject.cpp" />
+		<Unit filename="src/visualcontainer.cpp" />
+		<Unit filename="src/visualimage.cpp" />
 		<Unit filename="src/visualobject.cpp" />
 		<Extensions>
 			<code_completion />

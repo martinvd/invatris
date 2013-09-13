@@ -22,12 +22,14 @@ CDisplay::~CDisplay() {
 
 void CDisplay::checkKeys() {
     Uint8 *keystates = SDL_GetKeyState( NULL );
+    // if escape is pressed, indicate that the game shouldn't be running
     if( keystates[SDLK_ESCAPE] ) {
         bShouldBeRunning = false;
     }
 }
 
 void CDisplay::stop() {
+    // indicate that the game shouldn't be running
     bShouldBeRunning = false;
 }
 
@@ -42,12 +44,15 @@ void CDisplay::gameloop() {
 
     SDL_Event event;
     while ( bShouldBeRunning ) {
+        // check for pending events
         while( SDL_PollEvent( &event ) ) {
+            // check for quit game event
             if( event.type == SDL_QUIT ) {
                 bShouldBeRunning = true;
             }
         }
 
+        // check for keyboard input
         checkKeys();
 
         displayPositionedObjects();

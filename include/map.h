@@ -5,8 +5,7 @@
 
 #include "const.h"
 #include "freeable.h"
-
-#include "visualobject.h"
+#include "visualcontainer.h"
 
 class CBlokje: public CFreeable {
     public:
@@ -39,4 +38,4 @@ class Map: public CVisualContainer {
         CBlokje *changeTileType( unsigned int x, unsigned int y, unsigned int iNewType );
 };
 
-#endif
+#endif // MAP_H
