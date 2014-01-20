@@ -1,4 +1,4 @@
-#FreeManTetris
+#Invatris
 
 ##About
-FreeManTetris is a WIP Tetris clone, made with C++ using [SDL](http://www.libsdl.org/).
+Invatris is a WIP Tetris clone using [SDL](http://www.libsdl.org/).
