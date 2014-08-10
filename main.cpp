@@ -7,8 +7,8 @@
 #include "include/const.h"
 #include "include/display.h"
 #include "include/map.h"
-
 #include "include/visualimage.h"
+#include "include/movingtile.h"
 #include "visualobject.h"
 #include "visualcontainer.h"
 
