@@ -8,7 +8,7 @@ class CMovingTile: public CFreeable {
         long x;
         long y;
 
-        CMovingTile( long x, long y ) : CFreeable::CFreeable();
+        CMovingTile( long x, long y );
 };
 
 #endif // MOVINGTILE_H
