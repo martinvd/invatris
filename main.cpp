@@ -4,157 +4,23 @@
     #include <stdlib.h>
 #endif
 
+#include <math.h>
+
 #include "include/const.h"
 #include "include/display.h"
 #include "include/map.h"
 #include "include/visualimage.h"
 #include "include/movingtile.h"
+#include "tetrisobject.h"
+#include "movingtilematrix.h"
 #include "visualobject.h"
 #include "visualcontainer.h"
-
-#include <math.h>
 
 CDisplay *d;
 Map *myMap;
 
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
-
-class CMovingTileMatrix: public CFreeable {
-    protected:
-        void overwriteWith( CMovingTileMatrix *matrix ) {
-            for ( int i = 0; i < 5; i++ ) {
-                for ( int j = 0; j < 5; j++ ) {
-                    this->m[i][j] = matrix->m[i][j];
-                }
-            }
-        }
-
-        bool bAutoDelete;
-        int iTurned;
-    public:
-        CMovingTile *m[5][5];
-
-        CMovingTileMatrix( bool bAutoDelete = true ) : CFreeable::CFreeable() {
-            this->bAutoDelete = bAutoDelete;
-            iTurned = 0;
-
-            for ( int i = 0; i < 5; i++ ) {
-                for ( int j = 0; j < 5; j++ ) {
-                    m[i][j] = NULL;
-                }
-            }
-        }
-
-        ~CMovingTileMatrix() {
-            if ( bAutoDelete ) {
-                for ( int i = 0; i < 5; i++ ) {
-                    for ( int j = 0; j < 5; j++ ) {
-                        delete m[i][j];
-                    }
-                }
-            }
-        }
-
-        void turn90() {
-            CMovingTileMatrix *copy = new CMovingTileMatrix( false );
-
-            for ( int i = 0; i < 5; i++ ) {
-                copy->m[0][4-i] = this->m[i][0];
-                copy->m[1][4-i] = this->m[i][1];
-                copy->m[2][4-i] = this->m[i][2];
-                copy->m[3][4-i] = this->m[i][3];
-                copy->m[4][4-i] = this->m[i][4];
-            }
-
-            this->overwriteWith( copy );
-
-            delete copy;
-        }
-};
-
-class CTetrisObject: public CFreeable {
-    protected:
-        long iCenterX;
-        long iCenterY;
-
-        CMovingTileMatrix *matrix;
-
-        bool bIsMoving;
-    public:
-        CTetrisObject( long x, long y ) : CFreeable::CFreeable() {
-            iCenterX = x;
-            iCenterY = y;
-
-            matrix = new CMovingTileMatrix();
-
-            bIsMoving = true;
-        }
-        ~CTetrisObject() {
-            delete matrix;
-        }
-
-        virtual void typeChange( unsigned int iType ) {
-            long iStartX = iCenterX - 2;
-            long iStartY = iCenterY - 2;
-
-            for ( int i = 0; i < 5; i++ ) {
-                for ( int j = 0; j < 5; j++ ) {
-                    if ( matrix->m[i][j] != NULL ) {
-                        myMap->changeTileType( iStartX + j, iStartY + i, iType );
-                    }
-                }
-            }
-        }
-
-        virtual void moveDown() {
-            if ( bIsMoving ) {
-                typeChange( TILE_EMPTY );
-
-                iCenterY++;
-
-                long iStartX = iCenterX - 2;
-                long iStartY = iCenterY - 2;
-                for ( int i = 0; i < 5; i++ ) {
-                    for ( int j = 0; j < 5; j++ ) {
-                        if ( matrix->m[i][j] != NULL ) {
-                            if ( iStartY + i + 1 == MAP_HEIGHT ) {
-                                bIsMoving = false;
-                                break;
-                            } else {
-                                CBlokje *b = myMap->getTile( iStartX + j, iStartY + i + 1 );
-
-                                if ( b->iType == TILE_FILLED ) {
-                                    bIsMoving = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if ( !bIsMoving ) {
-                        break;
-                    }
-                }
-
-                if ( bIsMoving ) {
-                    typeChange( TILE_MOVABLE );
-                } else {
-                    typeChange( TILE_FILLED );
-                }
-            }
-        }
-
-        virtual void turn() {
-            if ( bIsMoving ) {
-                typeChange( TILE_EMPTY );
-
-                matrix->turn90();
-
-                typeChange( TILE_MOVABLE );
-            }
-        }
-};
 
 class CTetrisObject_A: public CTetrisObject {
     public:
